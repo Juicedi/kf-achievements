@@ -1,0 +1,23 @@
+body {
+  font-family: arial;
+}
+
+table {
+  border-spacing: 0px 2px;
+  border: solid black 1px;
+}
+
+thead {
+  border-bottom: solid black 1px;
+}
+
+tr:nth-child(odd) {
+  background-color: lightgrey;
+}
+
+th,
+td {
+  padding: 0.3em 1em;
+  text-align: center;
+  vertical-align: middle;
+}

@@ -1,116 +1,89 @@
-var maps = [
-  'airship',
-  'ashwood asylum',
-  'barmwich town',
-  'biolapse',
-  'biotics lab',
-  'black forest',
-  'burning paris',
-  'carillon hamlet',
-  'catacombs',
-  'containment station',
-  'desolation',
-  'diesector',
-  'dystopia 2029',
-  'elysium',
-  'evacuation point',
-  'farmhouse',
-  'hellmark station',
-  'hostile grounds',
-  'infernal realm',
-  'krampus lair',
-  'lockdown',
-  'monster ball',
-  'moonbase',
-  'netherhold',
-  'nightmare',
-  'nuked',
-  'outpost',
-  'power core',
-  'prison',
-  'rig',
-  'sanitarium',
-  'santa\'s workshop',
-  'shopping spree',
-  'spillway',
-  'steam fortress',
-  'the descent',
-  'tragic kingdom',
-  'volter manor',
-  'zed landing',
-];
+(function initializeDataFetcher() {
+  const maps = [
+    'airship',             'ashwood asylum',    'barmwich town',
+    'biolapse',            'biotics lab',       'black forest',
+    'burning paris',       'carillon hamlet',   'catacombs',
+    'containment station', 'desolation',        'diesector',
+    'dystopia 2029',       'elysium',           'evacuation point',
+    'farmhouse',           'hellmark station',  'hostile grounds',
+    'infernal realm',      'krampus lair',      'lockdown',
+    'monster ball',        'moonbase',          'netherhold',
+    'nightmare',           'nuked',             'outpost',
+    'power core',          'prison',            'rig',
+    'sanitarium',          'santa\'s workshop', 'shopping spree',
+    'spillway',            'steam fortress',    'the descent',
+    'tragic kingdom',      'volter manor',      'zed landing',
+  ];
 
-var gamemodes = [
-  'survival',
-  'endless',
-  'objective',
-];
+  const gamemodes = [
+    'survival',
+    'endless',
+    'objective',
+  ];
 
-var difficulties = [
-  'normal',
-  'hard',
-  'suicidal',
-  'hell on earth',
-];
+  const difficulties = [
+    'normal',
+    'hard',
+    'suicidal',
+    'hell on earth',
+  ];
 
-/* Check text if it has one of given word list words. If a word is
- * found, return it. */
-var getWordFoundInText = (text, wordList, defaultResult = '') => wordList.reduce((result, word) => {
-  if (text.includes(word)) {
-    result = word;
-  }
+  const wordAboutCollecting = ['collect', 'destroy'];
 
-  return result;
-}, defaultResult);
-
-var getData = () => {
-  const achievementElementRows = [...document.querySelectorAll('.achieveRow')];
-
-  const object = gamemodes.reduce((result, gamemode) => {
-    result[gamemode] = {};
-    result.collectibles = [];
-
-    difficulties.forEach((difficulty) => {
-      result[gamemode][difficulty] = [];
-    });
+  /* Check text if it has one of given word list words. If a word is
+   * found, return it. */
+  const getWordFoundInText = (text, wordList, defaultResult = '') => wordList.reduce((result, word) => {
+    if (text.includes(word)) {
+      result = word;
+    }
 
     return result;
-  }, {});
+  }, defaultResult);
 
-  return achievementElementRows.reduce(function testing(acc, element) {
-    const text = element.querySelector('h5').innerText.toLowerCase();
-    const gamemode = getWordFoundInText(text, gamemodes, 'survival');
-    const isAchieved = !!element.querySelector('.achieveUnlockTime');
-    const map = getWordFoundInText(text, maps);
+  const achievementElementRows = [...document.querySelectorAll('.achieveRow')];
 
-    if (!map || isAchieved || text.includes('map as') ) {
-      return acc;
+  window.getData = () => {
+    const playerName = prompt('Write player\'s name in the input field below.');
+
+    const data = {
+      name: playerName,
+      achievements: gamemodes.reduce((result, gamemode) => {
+        result[gamemode] = {};
+        result.collectibles = [];
+
+        difficulties.forEach((difficulty) => {
+          result[gamemode][difficulty] = [];
+        });
+
+        return result;
+      }, {})
     }
 
-    const difficulty = getWordFoundInText(text, difficulties);
-    const isAboutCollecting = !!getWordFoundInText(text, ['collect', 'destroy']);
+    data.achievements = achievementElementRows.reduce((achievementsData, element) => {
+      const text = element.querySelector('h5').innerText.toLowerCase();
+      const gamemode = getWordFoundInText(text, gamemodes, 'survival');
+      const isAchieved = !!element.querySelector('.achieveUnlockTime');
+      const map = getWordFoundInText(text, maps);
 
-    if (map && text.includes('hard or higher')) {
-      acc[gamemode][difficulties[1]].push(map);
-      acc[gamemode][difficulties[2]].push(map);
-      acc[gamemode][difficulties[3]].push(map);
-    } else if (map && difficulty) {
-      acc[gamemode][difficulty].push(map);
-    } else if (map && isAboutCollecting) {
-      acc.collectibles.push(map);
-    }
+      // Filter out irrelevant and achieved achievements
+      if (!map || isAchieved || text.includes('map as') ) return achievementsData;
 
-    return acc;
-  }, object);
-}
+      const difficulty = getWordFoundInText(text, difficulties);
+      const isAboutCollecting = !!getWordFoundInText(text, wordAboutCollecting);
 
-var getJson = (playerName) => {
-  const data = {
-    name: playerName,
-    achievements: null,
+      if (text.includes('hard or higher')) {
+        achievementsData[gamemode][difficulties[1]].push(map);
+        achievementsData[gamemode][difficulties[2]].push(map);
+        achievementsData[gamemode][difficulties[3]].push(map);
+      } else if (difficulty) {
+        achievementsData[gamemode][difficulty].push(map);
+      } else if (isAboutCollecting) {
+        achievementsData.collectibles.push(map);
+      }
+
+      return achievementsData;
+    }, data.achievements);
+
+    return data;
   }
-
-  data.achievements = getData();
-
-  return JSON.stringify(data, null, 4);
-}
+}());
