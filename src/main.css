@@ -18,6 +18,9 @@ tr:nth-child(odd) {
 th,
 td {
   padding: 0.3em 1em;
+}
+
+.mark {
   text-align: center;
   vertical-align: middle;
 }
