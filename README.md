@@ -12,7 +12,7 @@
 8. Paste your content like this
 
 ```
-dataCollection(
+dataCollection.push(
 <------ paste your content here
 );
 ```
