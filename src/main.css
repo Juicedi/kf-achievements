@@ -5,7 +5,11 @@ body {
   margin: 0 1rem;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: left;
+}
+
+.column:first-child {
+  margin-right: 1rem;
 }
 
 button {
@@ -27,7 +31,7 @@ tr:nth-child(odd) {
 
 th,
 td {
-  padding: 0.3rem 1rem;
+  padding: 0.3rem 0.5rem;
 }
 
 th,
