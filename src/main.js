@@ -53,4 +53,12 @@
       fillTable(mode, difficulty);
     });
   });
+
+  if (dataCollection.length === 0) {
+    let message = 'Missing data.\n\n';
+    message += 'Have you put any playername1.js to the data directory?\n\n';
+    message += 'Have you added the \n<script type="text/javascript" src="data/playername1.js"></script>\n tags to the index.html?\n\n';
+    message += '(Also make sure that the tag has the same "data/playername1.js" filename that is in the data directory.)';
+    alert(message);
+  }
 }());
