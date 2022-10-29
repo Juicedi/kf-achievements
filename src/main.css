@@ -1,26 +1,41 @@
 body {
   font-family: arial;
+  background-color: black;
+  color: #DDD;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+button {
+  display: block;
 }
 
 table {
-  border-spacing: 0px 2px;
-  border: solid black 1px;
+  border-spacing: 0.1rem;
+  background-color: #111;
 }
 
-thead {
-  border-bottom: solid black 1px;
+tr:nth-child(even) {
+  background-color: #444;
 }
 
 tr:nth-child(odd) {
-  background-color: lightgrey;
+  background-color: #333;
 }
 
 th,
 td {
-  padding: 0.3em 1em;
+  padding: 0.3rem 1rem;
 }
 
-.mark {
+th,
+.capitalize {
+  text-transform: capitalize;
+}
+
+td:not(:first-child) {
   text-align: center;
   vertical-align: middle;
 }

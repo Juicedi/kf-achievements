@@ -7,16 +7,34 @@
     <link rel="stylesheet" href="src/main.css">
   </head>
   <body>
-    <h2 id="dataKey"></h2>
+    <div class="column">
+    <h2 id="dataKey">Click buttons on the right to bring up the table</h2>
     <table id="table">
       <thead>
-        <tr>
-          <th>Map</th>
-        </tr>
+        <tr></tr>
       </thead>
-      <tbody>
-      </tbody>
+      <tbody></tbody>
     </table>
+    </div>
+    <div class="column">
+      <p>Survival</p>
+      <button type="button" data-mode="survival" data-difficulty="normal">Normal</button>
+      <button type="button" data-mode="survival" data-difficulty="hard">Hard</button>
+      <button type="button" data-mode="survival" data-difficulty="suicidal">Suicidal</button>
+      <button type="button" data-mode="survival" data-difficulty="hell on earth">Hell On Earth</button>
+      <p>Objective</p>
+      <button type="button" data-mode="objective" data-difficulty="normal">Normal</button>
+      <button type="button" data-mode="objective" data-difficulty="hard">Hard</button>
+      <button type="button" data-mode="objective" data-difficulty="suicidal">Suicidal</button>
+      <button type="button" data-mode="objective" data-difficulty="hell on earth">Hell On Earth</button>
+      <p>Endless</p>
+      <button type="button" data-mode="endless" data-difficulty="normal">Normal</button>
+      <button type="button" data-mode="endless" data-difficulty="hard">Hard</button>
+      <button type="button" data-mode="endless" data-difficulty="suicidal">Suicidal</button>
+      <button type="button" data-mode="endless" data-difficulty="hell on earth">Hell On Earth</button>
+      <p>Collectibles</p>
+      <button type="button" data-mode="collectibles">Collectibles</button>
+    </div>
   </body>
   <script type="text/javascript" src="src/data.js"></script>
   <!-- Add your player data below this line -->
