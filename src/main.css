@@ -31,7 +31,8 @@ td {
 }
 
 th,
-.capitalize {
+.capitalize,
+td:first-child {
   text-transform: capitalize;
 }
 
