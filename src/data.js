@@ -1,7 +1,7 @@
 const maps = [
   'airship',             'ashwood asylum',    'barmwich town',
   'biolapse',            'biotics lab',       'black forest',
-  'burning paris',       'carillon hamlet',   'catacombs',
+  'burning paris',       'carillon hamlet',   'catacombs', 'crash',
   'containment station', 'desolation',        'diesector',
   'dystopia 2029',       'elysium',           'evacuation point',
   'farmhouse',           'hellmark station',  'hostile grounds',
