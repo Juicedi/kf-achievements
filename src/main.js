@@ -4,6 +4,22 @@
 // TODO: Sort rows based on how many marks they have
 // TODO: Make buttons that can change what is visible
 (function main() {
+  const maps = [
+    'airship',             'ashwood asylum',    'barmwich town',
+    'biolapse',            'biotics lab',       'black forest',
+    'burning paris',       'carillon hamlet',   'catacombs', 'crash',
+    'containment station', 'desolation',        'diesector',
+    'dystopia 2029',       'elysium',           'evacuation point',
+    'farmhouse',           'hellmark station',  'hostile grounds',
+    'infernal realm',      'krampus lair',      'lockdown',
+    'monster ball',        'moonbase',          'netherhold',
+    'nightmare',           'nuked',             'outpost',
+    'power core',          'prison',            'rig',
+    'sanitarium',          'santa\'s workshop', 'shopping spree',
+    'spillway',            'steam fortress',    'the descent',
+    'tragic kingdom',      'volter manor',      'zed landing',
+  ];
+
   const title = document.getElementById('dataKey');
   const thead = document.querySelector('thead tr');
   const tbody = document.querySelector('tbody');

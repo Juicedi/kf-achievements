@@ -1,14 +1,52 @@
 (function initializeDataFetcher() {
+  const players = [
+    {
+      name: 'example player name 1',
+      url: 'https://steamcommunity.com/id/example-player-name-1/stats/232090/?tab=achievements',
+    },
+  ];
+
   const maps = [
-    'airship', 'ashwood asylum', 'barmwich town', 'biolapse', 'biotics lab',
-    'black forest', 'burning paris', 'carillon hamlet', 'catacombs', 'crash',
-    'containment station', 'desolation', 'diesector', 'dystopia 2029',
-    'elysium', 'evacuation point', 'farmhouse',      'hellmark station',
-    'hostile grounds', 'infernal realm', 'krampus lair', 'lockdown', 'monster ball',
-    'moonbase', 'netherhold', 'nightmare', 'nuked', 'outpost', 'power core',
-    'prison', 'rig', 'sanitarium', 'santa\'s workshop', 'shopping spree',
-    'spillway', 'steam fortress', 'the descent', 'tragic kingdom',
-    'volter manor', 'zed landing',
+    'airship',
+    'ashwood asylum',
+    'barmwich town',
+    'biolapse',
+    'biotics lab',
+    'black forest',
+    'burning paris',
+    'carillon hamlet',
+    'catacombs',
+    'crash',
+    'containment station',
+    'desolation',
+    'diesector',
+    'dystopia 2029',
+    'elysium',
+    'evacuation point',
+    'farmhouse',
+    'hellmark station',
+    'hostile grounds',
+    'infernal realm',
+    'krampus lair',
+    'lockdown',
+    'monster ball',
+    'moonbase',
+    'netherhold',
+    'nightmare',
+    'nuked',
+    'outpost',
+    'power core',
+    'prison',
+    'rig',
+    'sanitarium',
+    'santa\'s workshop',
+    'shopping spree',
+    'spillway',
+    'steam fortress',
+    'the descent',
+    'tragic kingdom',
+    'volter manor',
+    'zed landing',
   ];
 
   const gamemodes = [
@@ -36,10 +74,8 @@
     return result;
   }, defaultResult);
 
-  const achievementElementRows = [...document.querySelectorAll('.achieveRow')];
-
-  window.getData = () => {
-    const playerName = prompt('Write player\'s name in the input field below.');
+  const getData = (playerName, doc) => {
+    const achievementElementRows = [...doc.querySelectorAll('.achieveRow')];
 
     const data = {
       name: playerName,
@@ -81,5 +117,45 @@
     }, data.achievements);
 
     return data;
-  }
+  };
+
+  const wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+  const getDocument = (win) => new Promise((resolve, reject) => {
+    if (['complete', 'interactive'].includes(win.document.readyState)) {
+      resolve(win.document);
+      return;
+    }
+
+    win.addEventListener('load', function () {
+      resolve(win.document);
+    });
+  });
+
+  const openPlayerPage = async (playerNumber, win, allData) => {
+    const player = players[playerNumber];
+    win.location.replace(player.url);
+
+    await wait(0);
+
+    const doc = await getDocument(win);
+
+    allData.push(getData(player.name, doc));
+
+    const nextPlayerNumber = playerNumber + 1;
+
+    if (nextPlayerNumber >= players.length) {
+      console.log(allData);
+      return;
+    }
+
+    await wait(1000);
+    openPlayerPage(nextPlayerNumber, win, allData);
+  };
+
+  window.getAllData = () => {
+    const allData = [];
+    const win = window.open('', 'windowname');
+    openPlayerPage(0, win, allData);
+  };
 }());
