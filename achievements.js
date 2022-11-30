@@ -136,7 +136,7 @@
     const player = players[playerNumber];
     win.location.replace(player.url);
 
-    await wait(0);
+    await wait(1000);
 
     const doc = await getDocument(win);
 
