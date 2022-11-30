@@ -6,6 +6,19 @@
     },
   ];
 
+  const perks = [
+    'berserker',
+    'commando',
+    'demolitionist',
+    'medic',
+    'firebug',
+    'gunslinger',
+    'sharpshooter',
+    'support',
+    'survivalist',
+    'swat',
+  ];
+
   const maps = [
     'airship',
     'ashwood asylum',
@@ -82,9 +95,11 @@
       achievements: gamemodes.reduce((result, gamemode) => {
         result[gamemode] = {};
         result.collectibles = [];
+        result.perks = {};
 
         difficulties.forEach((difficulty) => {
           result[gamemode][difficulty] = [];
+          result.perks[difficulty] = [];
         });
 
         return result;
@@ -92,24 +107,27 @@
     }
 
     data.achievements = achievementElementRows.reduce((achievementsData, element) => {
+      const isAchieved = !!element.querySelector('.achieveUnlockTime');
+
+      // Filter out achieved achievements
+      if (isAchieved) return achievementsData;
+
       const text = element.querySelector('h5').innerText.toLowerCase();
       const gamemode = getWordFoundInText(text, gamemodes, 'survival');
-      const isAchieved = !!element.querySelector('.achieveUnlockTime');
       const map = getWordFoundInText(text, maps);
-
-      // Filter out irrelevant and achieved achievements
-      if (!map || isAchieved || text.includes('map as') ) return achievementsData;
-
       const difficulty = getWordFoundInText(text, difficulties);
+      const perk = getWordFoundInText(text, perks);
       const isAboutCollecting = !!getWordFoundInText(text, wordAboutCollecting);
 
-      if (text.includes('hard or higher')) {
+      if (perk && difficulty) {
+        achievementsData.perks[difficulty].push(perk);
+      } else if (map && text.includes('hard or higher')) {
         achievementsData[gamemode][difficulties[1]].push(map);
         achievementsData[gamemode][difficulties[2]].push(map);
         achievementsData[gamemode][difficulties[3]].push(map);
-      } else if (difficulty) {
+      } else if (map && difficulty) {
         achievementsData[gamemode][difficulty].push(map);
-      } else if (isAboutCollecting) {
+      } else if (map && isAboutCollecting) {
         achievementsData.collectibles.push(map);
       }
 

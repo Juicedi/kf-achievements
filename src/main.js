@@ -20,6 +20,19 @@
     'tragic kingdom',      'volter manor',      'zed landing',
   ];
 
+  const perks = [
+    'berserker',
+    'commando',
+    'demolitionist',
+    'medic',
+    'firebug',
+    'gunslinger',
+    'sharpshooter',
+    'support',
+    'survivalist',
+    'swat',
+  ];
+
   const title = document.getElementById('dataKey');
   const thead = document.querySelector('thead tr');
   const tbody = document.querySelector('tbody');
@@ -31,31 +44,40 @@
       return col;
     }
 
-    maps.forEach((map) => {
-      const newRow = document.createElement('TR');
+    function addRows(list, itemName) {
+      list.forEach((listItem) => {
+        const newRow = document.createElement('TR');
 
-      newRow.appendChild(newCol({ text: map }));
-      dataCollection.forEach(() => newRow.appendChild(newCol({})));
+        newRow.appendChild(newCol({ text: listItem }));
+        dataCollection.forEach(() => newRow.appendChild(newCol({})));
 
-      let markCount = 0;
+        let markCount = 0;
 
-      dataCollection.forEach((data, index) => {
-        const datalist = mode === 'collectibles' ? data.achievements[mode] : data.achievements[mode][difficulty]
-        if (!datalist.includes(map)) return;
-        markCount++;
-        newRow.children[index + 1].innerText = 'x';
+        dataCollection.forEach((data, index) => {
+          const datalist = mode === 'collectibles' ? data.achievements[mode] : data.achievements[mode][difficulty]
+          if (!datalist.includes(listItem)) return;
+          markCount++;
+          newRow.children[index + 1].innerText = 'x';
+        });
+
+        if (markCount > 0) {
+          tbody.appendChild(newRow);
+        }
       });
 
-      if (markCount > 0) {
-        tbody.appendChild(newRow);
-      }
-    });
+      thead.appendChild(newCol({ text: itemName, element: 'TH' }));
 
-    thead.appendChild(newCol({ text: 'map', element: 'TH' }));
+      dataCollection.forEach((data) => {
+        thead.appendChild(newCol({ text: data.name, element: 'TH' }));
+      });
+    }
 
-    dataCollection.forEach((data) => {
-      thead.appendChild(newCol({ text: data.name, element: 'TH' }));
-    });
+    if (mode === 'perks') {
+      addRows(perks, 'perk');
+      return;
+    }
+
+    addRows(maps, 'map');
   };
 
   document.querySelectorAll('button').forEach((button) => {
