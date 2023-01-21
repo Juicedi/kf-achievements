@@ -1,8 +1,8 @@
 (function initializeDataFetcher() {
   const players = [
     {
-      name: 'example player name 1',
-      url: 'https://steamcommunity.com/id/example-player-name-1/stats/232090/?tab=achievements',
+      name: 'player',
+      url: 'https://steamcommunity.com/',
     },
   ];
 
@@ -154,7 +154,7 @@
     const player = players[playerNumber];
     win.location.replace(player.url);
 
-    await wait(1000);
+    await wait(2000);
 
     const doc = await getDocument(win);
 
@@ -167,7 +167,7 @@
       return;
     }
 
-    await wait(1000);
+    await wait(2000);
     openPlayerPage(nextPlayerNumber, win, allData);
   };
 

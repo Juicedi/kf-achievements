@@ -80,10 +80,20 @@
     addRows(maps, 'map');
   };
 
+  const resetSelectedButton = () => {
+    document.querySelectorAll('button').forEach((button) => {
+      button.classList.remove('selected');
+    });
+  };
+
   document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (event) => {
       const mode = event.currentTarget.dataset.mode;
       const difficulty = mode === 'collectibles' ? '' : event.currentTarget.dataset.difficulty;
+      resetSelectedButton();
+      button.classList.add('selected');
+      document.body.className = '';
+      document.body.classList.add(mode);
       title.innerText = `${mode} ${difficulty}`;
       title.classList.add('capitalize');
       thead.innerHTML = '';

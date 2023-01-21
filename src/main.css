@@ -14,6 +14,53 @@ body {
 
 button {
   display: block;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+}
+
+button:not(:last-child) {
+  margin-bottom: 0.2rem;
+}
+
+.survival button.selected {
+  background-color: #df3838;
+}
+
+.objective button.selected {
+  background-color: #21c221;
+}
+
+.collectibles button.selected {
+  background-color: #fbd818;
+}
+
+.endless button.selected {
+  background-color: #e44ce4;
+}
+
+.perks button.selected {
+  background-color: #00caca;
+}
+
+.survival #dataKey {
+  color: #df3838;
+}
+
+.objective #dataKey {
+  color: #21c221;
+}
+
+.collectibles #dataKey {
+  color: #fbd818;
+}
+
+.endless #dataKey {
+  color: #e44ce4;
+}
+
+.perks #dataKey {
+  color: #00caca;
 }
 
 table {
