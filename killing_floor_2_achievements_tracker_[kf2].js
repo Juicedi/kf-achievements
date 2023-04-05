@@ -1,11 +1,4 @@
 (function initializeDataFetcher() {
-  const players = [
-    {
-      name: 'player',
-      url: 'https://steamcommunity.com/',
-    },
-  ];
-
   const perks = [
     'berserker',
     'commando',
@@ -68,24 +61,21 @@
     'objective',
   ];
 
-  const difficulties = [
-    'normal',
-    'hard',
-    'suicidal',
-    'hell on earth',
-  ];
+  const difficulties = {
+    normal: 'normal',
+    hard: 'hard',
+    suicidal: 'suicidal',
+    hellonearth: 'hell on earth',
+  };
 
   const wordAboutCollecting = ['collect', 'destroy'];
 
   /* Check text if it has one of given word list words. If a word is
    * found, return it. */
-  const getWordFoundInText = (text, wordList, defaultResult = '') => wordList.reduce((result, word) => {
-    if (text.includes(word)) {
-      result = word;
-    }
-
-    return result;
-  }, defaultResult);
+  const getWordFoundInText = (text, wordList, defaultResult = '') => {
+    const [word = defaultResult] = wordList.filter(word => text.includes(word));
+    return word;
+  };
 
   const getData = (playerName, doc) => {
     const achievementElementRows = [...doc.querySelectorAll('.achieveRow')];
@@ -97,7 +87,7 @@
         result.collectibles = [];
         result.perks = {};
 
-        difficulties.forEach((difficulty) => {
+        Object.values(difficulties).forEach((difficulty) => {
           result[gamemode][difficulty] = [];
           result.perks[difficulty] = [];
         });
@@ -115,16 +105,16 @@
       const text = element.querySelector('h5').innerText.toLowerCase();
       const gamemode = getWordFoundInText(text, gamemodes, 'survival');
       const map = getWordFoundInText(text, maps);
-      const difficulty = getWordFoundInText(text, difficulties);
+      const difficulty = getWordFoundInText(text, Object.values(difficulties));
       const perk = getWordFoundInText(text, perks);
       const isAboutCollecting = !!getWordFoundInText(text, wordAboutCollecting);
 
       if (perk && difficulty) {
         achievementsData.perks[difficulty].push(perk);
       } else if (map && text.includes('hard or higher')) {
-        achievementsData[gamemode][difficulties[1]].push(map);
-        achievementsData[gamemode][difficulties[2]].push(map);
-        achievementsData[gamemode][difficulties[3]].push(map);
+        achievementsData[gamemode][difficulties.hard].push(map);
+        achievementsData[gamemode][difficulties.suicidal].push(map);
+        achievementsData[gamemode][difficulties.hellonearth].push(map);
       } else if (map && difficulty) {
         achievementsData[gamemode][difficulty].push(map);
       } else if (map && isAboutCollecting) {
@@ -137,43 +127,50 @@
     return data;
   };
 
-  const wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+  const getCookie = (name) => document.cookie
+    .split('; ')
+    .find(cookie => cookie.startsWith(`${name}=`))
+    ?.split('=')[1] || null;
 
-  const getDocument = (win) => new Promise((resolve, reject) => {
-    if (['complete', 'interactive'].includes(win.document.readyState)) {
-      resolve(win.document);
-      return;
+  /*
+   * Get the steam profile IDs from the cookie and split them into an array
+   *
+   * The player data should be in following format in the cookie:
+   * profileID1:-:playername1,profileID2:-:playername2
+   */
+  const allPlayerData = getCookie('profiles').split(',').map(d => {
+    const split = d.split(':-:');
+    const PROFILE_ID_INDEX = 0;
+    const NAME_INDEX = 1;
+
+    return {
+      profileID: split[PROFILE_ID_INDEX],
+      name: split[NAME_INDEX],
     }
-
-    win.addEventListener('load', function () {
-      resolve(win.document);
-    });
   });
 
-  const openPlayerPage = async (playerNumber, win, allData) => {
-    const player = players[playerNumber];
-    win.location.replace(player.url);
+  const allData = [];
+  const MAX_LOOPS = 0;
 
-    await wait(2000);
+  allPlayerData.forEach(function(playerData, loopIndex) {
+    const { profileID, name } = playerData;
+    const isProfileIDNumber = isNaN(parseInt(profileID, 10));
 
-    const doc = await getDocument(win);
+    // Steam profile URL
+    const url = isProfileIDNumber
+      ? `https://steamcommunity.com/id/${profileID}/stats/232090/achievements/`
+      : `https://steamcommunity.com/profiles/${profileID}/stats/232090/achievements/`;
 
-    allData.push(getData(player.name, doc));
+    // Fetch the profile page HTML
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
 
-    const nextPlayerNumber = playerNumber + 1;
-
-    if (nextPlayerNumber >= players.length) {
-      console.log(allData);
-      return;
-    }
-
-    await wait(2000);
-    openPlayerPage(nextPlayerNumber, win, allData);
-  };
-
-  window.getAllData = () => {
-    const allData = [];
-    const win = window.open('', 'windowname');
-    openPlayerPage(0, win, allData);
-  };
+        allData.push(getData(name, doc));
+        console.log(allData);
+      })
+      .catch(error => console.log(error));
+  });
 }());
