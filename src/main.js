@@ -38,6 +38,10 @@
   const tbody = document.querySelector('tbody');
 
   const fillTable = (mode, difficulty) => {
+    const playersWithData = mode === 'collectibles'
+      ? dataCollection.filter(data => data.achievements[mode].length > 0)
+      : dataCollection.filter(data => data.achievements[mode][difficulty].length > 0)
+
     function newCol({ text = '', element = 'TD' }) {
       const col = document.createElement(element);
       col.innerText = text;
@@ -49,11 +53,11 @@
         const newRow = document.createElement('TR');
 
         newRow.appendChild(newCol({ text: listItem }));
-        dataCollection.forEach(() => newRow.appendChild(newCol({})));
+        playersWithData.forEach(() => newRow.appendChild(newCol({})));
 
         let markCount = 0;
 
-        dataCollection.forEach((data, index) => {
+        playersWithData.forEach((data, index) => {
           const datalist = mode === 'collectibles' ? data.achievements[mode] : data.achievements[mode][difficulty]
           if (!datalist.includes(listItem)) return;
           markCount++;
@@ -67,7 +71,7 @@
 
       thead.appendChild(newCol({ text: itemName, element: 'TH' }));
 
-      dataCollection.forEach((data) => {
+      playersWithData.forEach((data) => {
         thead.appendChild(newCol({ text: data.name, element: 'TH' }));
       });
     }
