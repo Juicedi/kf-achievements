@@ -16,8 +16,9 @@
     'nightmare',           'nuked',             'outpost',
     'power core',          'prison',            'rig',
     'sanitarium',          'santa\'s workshop', 'shopping spree',
-    'spillway',            'steam fortress',    'the descent',
-    'tragic kingdom',      'volter manor',      'zed landing',
+    'spillway',            'steam fortress',    'subduction',
+    'the descent',         'tragic kingdom',    'volter manor',
+    'zed landing',
   ];
 
   const perks = [
