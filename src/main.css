@@ -91,3 +91,7 @@ td:not(:first-child) {
   text-align: center;
   vertical-align: middle;
 }
+
+.helper-text {
+  display: none;
+}

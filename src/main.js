@@ -35,6 +35,7 @@
   ];
 
   const title = document.getElementById('dataKey');
+  const helper = document.querySelector('.helper-text');
   const thead = document.querySelector('thead tr');
   const tbody = document.querySelector('tbody');
 
@@ -101,6 +102,7 @@
       document.body.classList.add(mode);
       title.innerText = `${mode} ${difficulty}`;
       title.classList.add('capitalize');
+      helper.style.display = 'block';
       thead.innerHTML = '';
       tbody.innerHTML = '';
       fillTable(mode, difficulty);
