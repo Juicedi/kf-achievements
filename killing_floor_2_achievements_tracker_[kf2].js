@@ -133,13 +133,17 @@
     .find(cookie => cookie.startsWith(`${name}=`))
     ?.split('=')[1] || null;
 
+  const cookie = getCookie('profiles');
+
+  console.assert(!!cookie, 'Cookie is missing, Run the script from the profile-ids.js file. Check README.md for more information.');
+
   /*
-   * Get the steam profile IDs from the cookie and split them into an array
+   * Get the steam profile IDs and names from the cookie and split them into an array
    *
    * The player data should be in following format in the cookie:
    * profileID1:-:playername1,profileID2:-:playername2
    */
-  const allPlayerData = getCookie('profiles').split(',').map(d => {
+  const allPlayerData = cookie.split(',').map(d => {
     const split = d.split(':-:');
     const PROFILE_ID_INDEX = 0;
     const NAME_INDEX = 1;
@@ -151,7 +155,6 @@
   });
 
   const allData = [];
-  const MAX_LOOPS = 0;
 
   allPlayerData.forEach(function(playerData, loopIndex) {
     const { profileID, name } = playerData;
