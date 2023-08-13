@@ -8,19 +8,22 @@ body {
   justify-content: left;
 }
 
-.column:first-child {
-  margin-right: 1rem;
-}
-
 button {
   display: block;
   width: 100%;
   border: none;
   border-radius: 0;
+  cursor: pointer;
 }
 
 button:not(:last-child) {
   margin-bottom: 0.2rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1em;
 }
 
 .survival button.selected {
@@ -63,35 +66,87 @@ button:not(:last-child) {
   color: #00caca;
 }
 
-table {
-  border-spacing: 0.1rem;
-  background-color: #111;
+#content {
+  display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
-tr:nth-child(even) {
+.map {
   background-color: #444;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 0.2rem;
+  width: 12rem;
 }
 
-tr:nth-child(odd) {
-  background-color: #333;
+#dataKey {
+  text-transform: uppercase;
 }
 
-th,
-td {
-  padding: 0.3rem 0.5rem;
-}
-
-th,
-.capitalize,
-td:first-child {
+.map__name {
   text-transform: capitalize;
+  margin-top: 0;
 }
 
-td:not(:first-child) {
-  text-align: center;
-  vertical-align: middle;
+#all-players,
+.players {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
 }
 
-.helper-text {
-  display: none;
+.player,
+.player-name {
+  list-style: none;
+  transition: opacity 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.player-name {
+  text-transform: capitalize;
+  margin: 0.2rem;
+  padding: 0.2rem;
+  color: #222;
+  cursor: pointer;
+}
+
+.player {
+  margin: 0.1em;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+}
+
+.player0 {
+  background-color: violet;
+}
+
+.player1 {
+  background-color: red;
+}
+
+.player2 {
+  background-color: magenta;
+}
+
+.player3 {
+  background-color: cyan;
+}
+
+.player4 {
+  background-color: orange;
+}
+
+.player5 {
+  background-color: yellow;
+}
+
+.player6 {
+  background-color: #0F0;
+}
+
+.fade {
+  opacity: 0.1;
 }

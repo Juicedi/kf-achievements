@@ -1,6 +1,5 @@
 /* global dataCollection maps */
 
-// TODO: Pivot table so the least marks is first and most is last
 // TODO: Sort rows based on how many marks they have
 // TODO: Make buttons that can change what is visible
 (function main() {
@@ -35,62 +34,113 @@
   ];
 
   const title = document.getElementById('dataKey');
-  const helper = document.querySelector('.helper-text');
-  const thead = document.querySelector('thead tr');
-  const tbody = document.querySelector('tbody');
-
-  const fillTable = (mode, difficulty) => {
-    const playersWithData = mode === 'collectibles'
-      ? dataCollection.filter(data => data.achievements[mode].length > 0)
-      : dataCollection.filter(data => data.achievements[mode][difficulty].length > 0)
-
-    function newCol({ text = '', element = 'TD' }) {
-      const col = document.createElement(element);
-      col.innerText = text;
-      return col;
-    }
-
-    function addRows(list, itemName) {
-      list.forEach((listItem) => {
-        const newRow = document.createElement('TR');
-
-        newRow.appendChild(newCol({ text: listItem }));
-        playersWithData.forEach(() => newRow.appendChild(newCol({})));
-
-        let markCount = 0;
-
-        playersWithData.forEach((data, index) => {
-          const datalist = mode === 'collectibles' ? data.achievements[mode] : data.achievements[mode][difficulty]
-          if (!datalist.includes(listItem)) return;
-          markCount++;
-          newRow.children[index + 1].innerText = 'x';
-        });
-
-        if (markCount > 0) {
-          tbody.appendChild(newRow);
-        }
-      });
-
-      thead.appendChild(newCol({ text: itemName, element: 'TH' }));
-
-      playersWithData.forEach((data) => {
-        thead.appendChild(newCol({ text: data.name, element: 'TH' }));
-      });
-    }
-
-    if (mode === 'perks') {
-      addRows(perks, 'perk');
-      return;
-    }
-
-    addRows(maps, 'map');
-  };
+  const content = document.getElementById('content');
+  const allPlayers = document.getElementById('all-players');
 
   const resetSelectedButton = () => {
     document.querySelectorAll('button').forEach((button) => {
       button.classList.remove('selected');
     });
   };
+
+  const showContent = (mode, difficulty, players) => {
+    const list = mode === 'perks'
+      ? perks
+      : maps;
+
+    const mapsWithMissingCompletions = list.reduce((mapsMissingCompletions, map) => {
+      const data = {
+        name: map,
+        players: [],
+      };
+
+      const playersWithMissingData = mode === 'collectibles'
+        ? dataCollection.filter(data => data.achievements[mode].includes(map)).map(data => data.name)
+        : dataCollection.filter(data => data.achievements[mode][difficulty].includes(map)).map(data => data.name);
+
+      if (playersWithMissingData.length === 0) {
+        return mapsMissingCompletions;
+      }
+
+      data.players = playersWithMissingData;
+      mapsMissingCompletions.push(data);
+      return mapsMissingCompletions;
+    }, []);
+
+    mapsWithMissingCompletions.forEach(map => {
+      const mapElement = document.createElement('DIV');
+      mapElement.classList.add('map');
+
+      const playerList = document.createElement('UL');
+      playerList.classList.add('players');
+
+      map.players.forEach(player => {
+        const listItem = document.createElement('LI');
+        listItem.classList.add('player');
+        listItem.classList.add(`player${players.indexOf(player)}`);
+        playerList.appendChild(listItem);
+      });
+
+      const mapNameElement = document.createElement('P');
+      mapNameElement.classList.add('map__name');
+      mapNameElement.innerText = map.name;
+
+      mapElement.appendChild(mapNameElement);
+      mapElement.appendChild(playerList);
+      content.appendChild(mapElement);
+    });
+  };
+
+  const players = dataCollection.map(data => data.name);
+
+  players.forEach(player => {
+    const listItem = document.createElement('LI');
+    const playerIndex = players.indexOf(player);
+    const playerClass = `player${playerIndex}`;
+    listItem.dataset.playerIndex = playerIndex;
+    listItem.classList.add(playerClass);
+    listItem.classList.add('player-name');
+    listItem.innerText = player;
+    allPlayers.appendChild(listItem);
+  });
+
+  allPlayers.childNodes.forEach(node => {
+    window.fadeoutTimeout = -1;
+
+    node.addEventListener('mouseenter', function() {
+      if (window.fadeoutTimeout > -1) {
+        clearTimeout(window.fadeoutTimeout);
+        window.fadeoutTimeout = -1;
+      }
+
+      const fadeClasses = players.reduce((acc, item, index) => {
+        if (index === parseInt(node.dataset.playerIndex, 10)) {
+          return acc;
+        }
+
+        acc.push(`.player${index}`)
+        return acc;
+      }, []);
+
+      const fadeElements = document.querySelectorAll(fadeClasses.join(', '));
+
+      fadeElements.forEach(fadeNode => {
+        fadeNode.classList.add('fade');
+      });
+
+      document.querySelectorAll(`.player${node.dataset.playerIndex}`).forEach(currentNode => {
+        currentNode.classList.remove('fade');
+      });
+    });
+
+    node.addEventListener('mouseleave', function() {
+      window.fadeoutTimeout = setTimeout(() => {
+        document.querySelectorAll('.fade').forEach(node => {
+          node.classList.remove('fade');
+        });
+      }, 300);
+    });
+  });
 
   document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (event) => {
@@ -102,10 +152,8 @@
       document.body.classList.add(mode);
       title.innerText = `${mode} ${difficulty}`;
       title.classList.add('capitalize');
-      helper.style.display = 'block';
-      thead.innerHTML = '';
-      tbody.innerHTML = '';
-      fillTable(mode, difficulty);
+      content.innerHTML = '';
+      showContent(mode, difficulty, players);
     });
   });
 

@@ -8,41 +8,37 @@
   </head>
 
   <body>
-    <div class="column">
-      <h2>Survival</h2>
-      <button type="button" data-mode="survival" data-difficulty="normal">Normal</button>
-      <button type="button" data-mode="survival" data-difficulty="hard">Hard</button>
-      <button type="button" data-mode="survival" data-difficulty="suicidal">Suicidal</button>
-      <button type="button" data-mode="survival" data-difficulty="hell on earth">Hell On Earth</button>
-      <h2>Objective</h2>
-      <button type="button" data-mode="objective" data-difficulty="normal">Normal</button>
-      <button type="button" data-mode="objective" data-difficulty="hard">Hard</button>
-      <button type="button" data-mode="objective" data-difficulty="suicidal">Suicidal</button>
-      <button type="button" data-mode="objective" data-difficulty="hell on earth">Hell On Earth</button>
-      <h2>Endless</h2>
-      <button type="button" data-mode="endless" data-difficulty="normal">Normal</button>
-      <button type="button" data-mode="endless" data-difficulty="hard">Hard</button>
-      <button type="button" data-mode="endless" data-difficulty="suicidal">Suicidal</button>
-      <button type="button" data-mode="endless" data-difficulty="hell on earth">Hell On Earth</button>
-      <h2>Perks</h2>
-      <button type="button" data-mode="perks" data-difficulty="normal">Normal</button>
-      <button type="button" data-mode="perks" data-difficulty="hard">Hard</button>
-      <button type="button" data-mode="perks" data-difficulty="suicidal">Suicidal</button>
-      <button type="button" data-mode="perks" data-difficulty="hell on earth">Hell On Earth</button>
-      <h2>Collectibles</h2>
-      <button type="button" data-mode="collectibles">Collectibles</button>
-    </div>
-    <div class="column">
-      <h2 id="dataKey">Click buttons on the left to bring up the table</h2>
-      <p class="helper-text">(<b>x</b> marks the missing achievements)</p>
-      <table id="table">
-        <thead>
-          <tr></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
+    <main>
+      <div class="column">
+        <h2>Survival</h2>
+        <button type="button" data-mode="survival" data-difficulty="normal">Normal</button>
+        <button type="button" data-mode="survival" data-difficulty="hard">Hard</button>
+        <button type="button" data-mode="survival" data-difficulty="suicidal">Suicidal</button>
+        <button type="button" data-mode="survival" data-difficulty="hell on earth">Hell On Earth</button>
+        <h2>Objective</h2>
+        <button type="button" data-mode="objective" data-difficulty="normal">Normal</button>
+        <button type="button" data-mode="objective" data-difficulty="hard">Hard</button>
+        <button type="button" data-mode="objective" data-difficulty="suicidal">Suicidal</button>
+        <button type="button" data-mode="objective" data-difficulty="hell on earth">Hell On Earth</button>
+        <h2>Endless</h2>
+        <button type="button" data-mode="endless" data-difficulty="normal">Normal</button>
+        <button type="button" data-mode="endless" data-difficulty="hard">Hard</button>
+        <button type="button" data-mode="endless" data-difficulty="suicidal">Suicidal</button>
+        <button type="button" data-mode="endless" data-difficulty="hell on earth">Hell On Earth</button>
+        <h2>Perks</h2>
+        <button type="button" data-mode="perks" data-difficulty="normal">Normal</button>
+        <button type="button" data-mode="perks" data-difficulty="hard">Hard</button>
+        <button type="button" data-mode="perks" data-difficulty="suicidal">Suicidal</button>
+        <button type="button" data-mode="perks" data-difficulty="hell on earth">Hell On Earth</button>
+        <h2>Collectibles</h2>
+        <button type="button" data-mode="collectibles">Collectibles</button>
+      </div>
+      <div class="column">
+        <h2 id="dataKey">Click buttons on the left to bring up the table</h2>
+        <ul id="all-players"></ul>
+        <div id="content"></div>
+      </div>
+    </main>
     <script type="text/javascript" src="data/all.js"></script>
     <script type="text/javascript" src="src/main.js"></script>
   </body>
