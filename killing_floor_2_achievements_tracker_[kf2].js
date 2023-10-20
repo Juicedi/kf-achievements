@@ -21,6 +21,7 @@
     'black forest',
     'burning paris',
     'carillon hamlet',
+    'castle volter',
     'catacombs',
     'crash',
     'containment station',
