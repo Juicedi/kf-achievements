@@ -33,6 +33,51 @@
     'swat',
   ];
 
+  const mapImages = {
+    'airship': 'https://wiki.killingfloor2.com/images/a/a6/KF2_Map_Airship.png',
+    'ashwood asylum': 'https://wiki.killingfloor2.com/images/6/6a/KF2_AshwoodAsylum_thumbnail.png',
+    'barmwich town': 'https://wiki.killingfloor2.com/images/1/11/Kf2_MapPreview_BarmwichTown.png',
+    'biolapse': 'https://wiki.killingfloor2.com/images/9/90/KF2_MapPreview_Biolapse.png',
+    'biotics lab': 'https://wiki.killingfloor2.com/images/4/43/KF2_Map_BioticsLab.png',
+    'black forest': 'https://wiki.killingfloor2.com/images/9/9e/KF2_Map_BlackForest.png',
+    'burning paris': 'https://wiki.killingfloor2.com/images/d/da/KF2_Map_BurningParis.png',
+    'carillon hamlet': 'https://wiki.killingfloor2.com/images/7/74/Kf2_MapPreview_CarillonHamlet.png',
+    'catacombs': 'https://wiki.killingfloor2.com/images/1/11/KF2_Map_Catacombs.png',
+    'crash': 'https://wiki.killingfloor2.com/images/5/58/KF2_MapPreview_Crash.png',
+    'castle volter': 'https://wiki.killingfloor2.com/images/b/b1/UI_MapPreview_VolterCastle.png',
+    'containment station': 'https://wiki.killingfloor2.com/images/e/e3/KF2_Map_ContainmentStation.png',
+    'desolation': 'https://wiki.killingfloor2.com/images/5/50/KF2_MapPreview_Desolation.png',
+    'diesector': 'https://wiki.killingfloor2.com/images/2/2d/KF2_Map_DieSector.png',
+    'dystopia 2029': 'https://wiki.killingfloor2.com/images/2/2f/KF2_MapPreview_Dystopia_2029.jpg',
+    'elysium': 'https://wiki.killingfloor2.com/images/d/d9/KF2_MapPreview_Elysium.png',
+    'evacuation point': 'https://wiki.killingfloor2.com/images/5/5a/KF2_Map_EvacuationPoint.png',
+    'farmhouse': 'https://wiki.killingfloor2.com/images/1/18/KF2_Map_Farmhouse.png',
+    'hellmark station': 'https://wiki.killingfloor2.com/images/e/ed/KF2_Map_HellMark.png',
+    'hostile grounds': 'https://wiki.killingfloor2.com/images/8/8e/KF2_Map_HostileGrounds.png',
+    'infernal realm': 'https://wiki.killingfloor2.com/images/c/c8/KF2_Map_InfernalRealm.png',
+    'krampus lair': 'https://wiki.killingfloor2.com/images/d/d5/KF2_Map_KrampusLair.png',
+    'lockdown': 'https://wiki.killingfloor2.com/images/0/05/KF2_Map_Lockdown.png',
+    'monster ball': 'https://wiki.killingfloor2.com/images/5/5f/KF2_Map_MonsterBall.png',
+    'moonbase': 'https://wiki.killingfloor2.com/images/b/b5/KF2_Map_MoonBase_Preview.png',
+    'netherhold': 'https://wiki.killingfloor2.com/images/5/55/KF2_MapPreview_Netherhold.png',
+    'nightmare': 'https://wiki.killingfloor2.com/images/a/a1/KF2_Map_Nightmare.png',
+    'nuked': 'https://wiki.killingfloor2.com/images/a/ab/KF2_Map_Nuked.png',
+    'outpost': 'https://wiki.killingfloor2.com/images/e/ee/KF2_Map_Outpost.png',
+    'power core': 'https://wiki.killingfloor2.com/images/7/7f/KF2_Map_PowerCore.png',
+    'prison': 'https://wiki.killingfloor2.com/images/f/fb/KF2_Map_Prison.png',
+    'rig': 'https://wiki.killingfloor2.com/images/d/df/KF2_MapPreview_Rig.png',
+    'sanitarium': 'https://wiki.killingfloor2.com/images/7/77/Kf2_sanitarium_thumb.jpg',
+    'santa\'s workshop': 'https://wiki.killingfloor2.com/images/7/7b/KF2_Map_SantasWorkshop.png',
+    'shopping spree': 'https://wiki.killingfloor2.com/images/6/6b/KF2_Map_ShoppingSpree.png',
+    'spillway': 'https://wiki.killingfloor2.com/images/f/fa/KF2_Map_Spillway.png',
+    'steam fortress': 'https://wiki.killingfloor2.com/images/2/2a/KF2_Map_Steam_Fortress.png',
+    'subduction': 'https://wiki.killingfloor2.com/images/a/a8/Kf2_UI_MapPreview_Subduction.png',
+    'the descent': 'https://wiki.killingfloor2.com/images/6/64/KF2_Map_TheDescent.png',
+    'tragic kingdom': 'https://wiki.killingfloor2.com/images/3/3b/KF2_Map_TragicKingdom.png',
+    'volter manor': 'https://wiki.killingfloor2.com/images/8/8c/KF2_Map_VolterManor.png',
+    'zed landing': 'https://wiki.killingfloor2.com/images/d/d3/KF2_Map_Zed_Landing.png',
+  };
+
   const title = document.getElementById('dataKey');
   const content = document.getElementById('content');
   const allPlayers = document.getElementById('all-players');
@@ -70,6 +115,15 @@
     mapsWithMissingCompletions.forEach(map => {
       const mapElement = document.createElement('DIV');
       mapElement.classList.add('map');
+
+      if (mapImages[map.name]) {
+        const mapImage = document.createElement('IMG');
+        mapImage.classList.add('map-image');
+        mapImage.src = mapImages[map.name];
+        mapElement.appendChild(mapImage);
+      } else {
+        mapElement.classList.add('no-image');
+      }
 
       const playerList = document.createElement('UL');
       playerList.classList.add('players');

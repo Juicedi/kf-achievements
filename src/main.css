@@ -73,11 +73,33 @@ main {
 }
 
 .map {
-  background-color: #444;
-  padding: 1rem;
+  position: relative;
+  padding: 5rem 1rem 0.5rem 1rem;
   margin: 0.5rem;
   border-radius: 0.2rem;
-  width: 12rem;
+  border: 0.1rem solid rgba(100, 100, 100, 0.6);
+  overflow: hidden;
+  width: 14rem;
+  background-color: #222;
+}
+
+.no-image {
+}
+
+.map-image {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+  z-index: 0;
+  pointer-events: none;
 }
 
 #dataKey {
@@ -85,12 +107,16 @@ main {
 }
 
 .map__name {
+  position: relative;
   text-transform: capitalize;
   margin-top: 0;
+  font-weight: bold;
+  color: #fff;
 }
 
 #all-players,
 .players {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   padding: 0;
