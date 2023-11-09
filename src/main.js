@@ -4,21 +4,20 @@
 // TODO: Make buttons that can change what is visible
 (function main() {
   const maps = [
-    'airship',             'ashwood asylum',    'barmwich town',
-    'biolapse',            'biotics lab',       'black forest',
-    'burning paris',       'carillon hamlet',   'catacombs',
-    'crash',               'castle volter',     'containment station',
-    'desolation',          'diesector',
-    'dystopia 2029',       'elysium',           'evacuation point',
-    'farmhouse',           'hellmark station',  'hostile grounds',
-    'infernal realm',      'krampus lair',      'lockdown',
-    'monster ball',        'moonbase',          'netherhold',
-    'nightmare',           'nuked',             'outpost',
-    'power core',          'prison',            'rig',
-    'sanitarium',          'santa\'s workshop', 'shopping spree',
-    'spillway',            'steam fortress',    'subduction',
-    'the descent',         'tragic kingdom',    'volter manor',
-    'zed landing',
+    'airship',           'ashwood asylum',   'barmwich town',
+    'biolapse',          'biotics lab',      'black forest',
+    'burning paris',     'carillon hamlet',  'catacombs',
+    'crash',             'castle volter',    'containment station',
+    'desolation',        'diesector',        'dystopia 2029',
+    'elysium',           'evacuation point', 'farmhouse',
+    'hellmark station',  'hostile grounds',  'infernal realm',
+    'krampus lair',      'lockdown',         'monster ball',
+    'moonbase',          'netherhold',       'nightmare',
+    'nuked',             'outpost',          'power core',
+    'prison',            'rig',              'sanitarium',
+    'santa\'s workshop', 'shopping spree',   'spillway',
+    'steam fortress',    'subduction',       'the descent',
+    'tragic kingdom',    'volter manor',     'zed landing',
   ];
 
   const perks = [
