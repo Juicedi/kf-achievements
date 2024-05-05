@@ -104,6 +104,7 @@
 
   const players = dataCollection.map(data => data.name);
 
+  // Display player names and colors on the top bar
   players.forEach(player => {
     const listItem = document.createElement('LI');
     const playerIndex = players.indexOf(player);
@@ -118,6 +119,7 @@
   allPlayers.childNodes.forEach(node => {
     window.fadeoutTimeout = -1;
 
+    // Lowlight all other players
     node.addEventListener('mouseenter', function() {
       if (window.fadeoutTimeout > -1) {
         clearTimeout(window.fadeoutTimeout);
@@ -144,6 +146,7 @@
       });
     });
 
+    // Remove lowlight effect
     node.addEventListener('mouseleave', function() {
       window.fadeoutTimeout = setTimeout(() => {
         document.querySelectorAll('.fade').forEach(node => {
@@ -153,6 +156,7 @@
     });
   });
 
+  // Add side menu button content switching eventlisteners
   document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (event) => {
       const mode = event.currentTarget.dataset.mode;
@@ -168,6 +172,7 @@
     });
   });
 
+  // Inform if the player data is missing.
   if (dataCollection.length === 0) {
     let message = 'Missing data.\n\n';
     message += 'Have you put any playername1.js to the data directory?\n\n';
