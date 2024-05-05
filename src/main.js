@@ -116,18 +116,14 @@
     allPlayers.appendChild(listItem);
   });
 
+  const selectedPlayers = [];
+
   allPlayers.childNodes.forEach(node => {
-    window.fadeoutTimeout = -1;
+    const playerIndex = parseInt(node.dataset.playerIndex, 10);
 
-    // Lowlight all other players
-    node.addEventListener('mouseenter', function() {
-      if (window.fadeoutTimeout > -1) {
-        clearTimeout(window.fadeoutTimeout);
-        window.fadeoutTimeout = -1;
-      }
-
+    function addLowlight() {
       const fadeClasses = players.reduce((acc, item, index) => {
-        if (index === parseInt(node.dataset.playerIndex, 10)) {
+        if (selectedPlayers.includes(index)) {
           return acc;
         }
 
@@ -135,25 +131,46 @@
         return acc;
       }, []);
 
-      const fadeElements = document.querySelectorAll(fadeClasses.join(', '));
+      const fadeClassesString = fadeClasses.join(', ');
+      const fadeElements = document.querySelectorAll(fadeClassesString);
 
       fadeElements.forEach(fadeNode => {
         fadeNode.classList.add('fade');
       });
 
-      document.querySelectorAll(`.player${node.dataset.playerIndex}`).forEach(currentNode => {
+      const highlightedString = selectedPlayers.map((index) => `.player${index}`).join(', ');
+      const highlightedElements = document.querySelectorAll(highlightedString);
+
+      highlightedElements.forEach(currentNode => {
         currentNode.classList.remove('fade');
       });
-    });
+    }
 
-    // Remove lowlight effect
-    node.addEventListener('mouseleave', function() {
-      window.fadeoutTimeout = setTimeout(() => {
-        document.querySelectorAll('.fade').forEach(node => {
-          node.classList.remove('fade');
-        });
-      }, 300);
-    });
+    function removeLowLight() {
+      document.querySelectorAll('.fade').forEach(node => {
+        node.classList.remove('fade');
+      });
+    }
+
+    function onClick() {
+      console.log('before', selectedPlayers);
+
+      if (selectedPlayers.includes(playerIndex)) {
+        selectedPlayers.splice(selectedPlayers.indexOf(playerIndex), 1);
+      } else {
+        selectedPlayers.push(playerIndex);
+      }
+
+      console.log('after', selectedPlayers);
+
+      if (selectedPlayers.length <= 0) {
+        setTimeout(removeLowLight, 0);
+      } else {
+        addLowlight();
+      }
+    }
+
+    node.addEventListener('click', onClick);
   });
 
   // Add side menu button content switching eventlisteners
