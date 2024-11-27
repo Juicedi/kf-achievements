@@ -8,10 +8,11 @@
 3. Open browser
 4. Go to your Killing Floor 2 achievements page
 5. Open browser's console
-6. Copy profile-ids.js content to the browser's console
-7. The console should have as many rows after the copied code as there are players listed in the code. Right click on the last one and select "copy object"
-8. Create new file to the data directory named all.js
-9. Paste your content like this
+6. Copy profile-ids.js content to the browser's console. This will save the profile information to your browser's cookies.
+7. Copy `killing_floor_2_achievements_tracker_[kf2].js` to the browser's console.
+8. The console should have as many rows after the copied code as there are players listed in the code. Right click on the last one and select "copy object"
+9. Create new file to the data directory named all.js
+10. Paste your content like this
 ```
 const dataCollection = <------ paste your content here
 ```
@@ -21,7 +22,7 @@ const dataCollection = <------ paste your content here
 1. Open browser
 2. Go to your Killing Floor 2 achievements page
 3. Open browser's console
-4. Copy profile-ids.js content to the browser's console
+4. Copy `killing_floor_2_achievements_tracker_[kf2].js` to the browser's console.
 5. The console should have as many rows after the copied code as there are players listed in the code. Right click on the last one and select "copy object"
 6. Paste your content like this
 ```
